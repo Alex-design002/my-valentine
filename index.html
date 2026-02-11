@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Basic Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden; /* Prevents scrollbars from falling elements */
+            font-family: 'Dancing Script', cursive; /* Romantic font application */
+            background-image: url('image_0.png'); /* The provided background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Overlay to make text readable against the background */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 240, 245, 0.3); /* Subtle pink/white overlay */
+            z-index: 1;
+        }
+
+        /* Main Content Container */
+        .container {
+            position: relative;
+            z-index: 10; /* Above falling elements and overlay */
+            text-align: center;
+            background: rgba(255, 255, 255, 0.85); /* Semi-transparent white box */
+            padding: 40px 60px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(220, 20, 60, 0.3); /* Soft reddish shadow */
+            border: 3px solid #ffbdd0; /* Pink border */
+        }
+
+        h1 {
+            color: #d10024; /* Deep red color */
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(255, 192, 203, 0.5);
+        }
+
+        /* Button Container and Styling */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.8rem;
+            font-family: 'Dancing Script', cursive;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Specific Button Styles */
+        #yes-btn {
+            background-color: #ff4d6d; /* Vibrant pink/red */
+            color: white;
+        }
+
+        #yes-btn:hover {
+            background-color: #d10024;
+            transform: scale(1.1);
+        }
+
+        #no-btn {
+            background-color: white;
+            color: #ff4d6d;
+            border: 3px solid #ff4d6d;
+        }
+
+        #no-btn:hover {
+            background-color: #ffe6ea;
+            transform: scale(1.1);
+        }
+
+        /* Falling Elements Styles (Hearts & Kisses) */
+        .falling-element {
+            position: absolute;
+            top: -50px;
+            z-index: 5; /* Between overlay and container */
+            user-select: none;
+            pointer-events: none;
+            animation-name: fall;
+            animation-timing-function: linear;
+        }
+
+        /* Keyframes for falling animation */
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div class="container">
+        <h1>Will you be my valentine?</h1>
+        <div class="buttons">
+            <button id="yes-btn" class="btn">Yes</button>
+            <button id="no-btn" class="btn">No</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Button Functionality ---
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+
+        yesBtn.addEventListener('click', () => {
+            // Redirect to the happy song
+            window.location.href = "https://music.youtube.com/watch?v=2J-nyy2TYWQ&si=f9SKfgNbrkR9RG8b";
+        });
+
+        noBtn.addEventListener('click', () => {
+            // Redirect to the sad song
+            window.location.href = "https://music.youtube.com/watch?v=zSFnUkhYszY&si=P4aFnD2LIWYay6ha";
+        });
+
+
+        // --- Falling Hearts and Kisses Effect ---
+        function createFallingElement() {
+            const element = document.createElement('div');
+            element.classList.add('falling-element');
+            
+            // Randomly choose between a heart and a kiss
+            const types = ['❤', '💋'];
+            element.innerText = types[Math.floor(Math.random() * types.length)];
+            
+            // Randomize appearance and position
+            element.style.left = Math.random() * 100 + 'vw';
+            element.style.fontSize = Math.random() * 20 + 20 + 'px'; // Size between 20px and 40px
+            const colors = ['#ff4d6d', '#d10024', '#ffbdd0', '#ffffff'];
+            element.style.color = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Randomize fall duration between 3s and 7s
+            const duration = Math.random() * 4 + 3;
+            element.style.animationDuration = duration + 's';
+            
+            document.body.appendChild(element);
+            
+            // Remove the element after it finishes falling to prevent memory leaks
+            setTimeout(() => {
+                element.remove();
+            }, duration * 1000);
+        }
+
+        // Create a new falling element every 300 milliseconds
+        setInterval(createFallingElement, 300);
+
+    </script>
+</body>
+</html>
